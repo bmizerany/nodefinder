@@ -1,3 +1,6 @@
+=Version 0.0.2=
+  * Fix start bug (and tests bug!).
+
 =Version 0.0.1=
   * Documentation cleanups.
   * Fix make dist.
