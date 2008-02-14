@@ -1,0 +1,6 @@
+=Version 0.0.1=
+  * Documentation cleanups.
+  * Fix make dist.
+
+=Version 0.0.0=
+  * Initial version.

@@ -1,0 +1,48 @@
+#! /bin/sh
+
+erl -pa ../src -name ec2nodefinder_checkah -eval '
+  "ec2nodefinder_checkah@" ++ Host = atom_to_list (node ()),
+  [ "com", "amazonaws" | Rest ] = lists:reverse (string:tokens (Host, "."))
+' -noshell -noinput -s erlang halt >/dev/null 2>&1 || {
+  echo "ERROR: this test only functions on an EC2 node" 1>&2
+  exit 1
+}
+
+erl -pa ../src -name ec2nodefinder_test1 -eval '
+  { ok, _ } = 
+    ec2nodefindersup:start_link 
+      ("default",
+       3000,
+       "/usr/share/n54/pk-GPXBZ3LGH4OMFSNK777QX2ZC57QIIPLB.pem",
+       "/usr/share/n54/cert-GPXBZ3LGH4OMFSNK777QX2ZC57QIIPLB.pem",
+       "/usr",
+       "/usr"),
+  receive after 10000 -> ok end
+' -noshell -noinput -s erlang halt &
+
+sleep 1
+
+erl -pa ../src -name ec2nodefinder_test2 -eval '
+  "ec2nodefinder_test2@" ++ Host = atom_to_list (node ()),
+  [] = erlang:nodes (),
+  ec2nodefindersup:start_link 
+    ("default",
+     3000,
+     "/usr/share/n54/pk-GPXBZ3LGH4OMFSNK777QX2ZC57QIIPLB.pem",
+     "/usr/share/n54/cert-GPXBZ3LGH4OMFSNK777QX2ZC57QIIPLB.pem",
+     "/usr",
+     "/usr"),
+  receive after 1000 -> ok end,
+  Other = list_to_atom ("ec2nodefinder_test1@" ++ Host),
+  [ Other ] = erlang:nodes ()
+' -noshell -noinput -s erlang halt || exit 1
+
+erl -pa ../src -name ec2nodefinder_killah -eval '
+  "ec2nodefinder_killah@" ++ Host = atom_to_list (node ()),
+  Other = list_to_atom ("ec2nodefinder_test1@" ++ Host),
+  rpc:call (Other, erlang, halt, [])
+' -noshell -noinput -s erlang halt 
+
+wait
+
+exit 0

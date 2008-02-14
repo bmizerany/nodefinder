@@ -1,0 +1,37 @@
+# The FW_PACKAGE_MAINTAINER field is populated with the 
+# environment variable FW_PACKAGE_DEFAULT_MAINTAINER if non-empty
+
+FW_PACKAGE_NAME="ec2nodefinder"
+FW_PACKAGE_VERSION="0.0.1"
+FW_PACKAGE_MAINTAINER="Paul Mineiro <paul@n54.com>"
+FW_PACKAGE_SHORT_DESCRIPTION="ec2-describe-instances based node discovery."
+FW_PACKAGE_DESCRIPTION="`cat README`"
+FW_PACKAGE_ARCHITECTURE_DEPENDENT="0"
+
+# Dependency information.  The native syntax corresponds to Debian,
+# http://www.debian.org/doc/debian-policy/ch-relationships.html
+# Section 7.1 "Syntax of Relationship Fields"
+# 
+# For other packaging systems, the syntax is translated for you.
+
+FW_PACKAGE_DEPENDS="ec2-api-tools,
+                    n54-aws-auth,
+                    sun-java5-bin | fink"
+FW_PACKAGE_CONFLICTS=""
+FW_PACKAGE_PROVIDES="nodefinder-service"
+FW_PACKAGE_REPLACES=""
+
+FW_PACKAGE_BUILD_DEPENDS="ec2-api-tools,
+                          n54-aws-auth,
+                          n54-dupload-conf,
+                          sun-java5-bin | fink"
+FW_PACKAGE_BUILD_CONFLICTS=""
+
+FW_SUBVERSION_TAG_ROOT="https://nodefinder.googlecode.com/svn/tags/ec2nodefinder"
+
+FW_ERL_APP_ENVIRONMENT="[{ group, \"default\" },
+  			 { ping_timeout_sec, 3 },
+			 { ec2_home, \"/usr\" },
+			 { java_home, \"/usr\" },
+			 { private_key, \"/usr/share/n54/pk-GPXBZ3LGH4OMFSNK777QX2ZC57QIIPLB.pem\" },
+			 { cert, \"/usr/share/n54/cert-GPXBZ3LGH4OMFSNK777QX2ZC57QIIPLB.pem\" }]"
