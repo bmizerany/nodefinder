@@ -1,0 +1,9 @@
+=Version 0.1.1=
+  * Cleanup documentation.
+  * Fix make dist.
+
+=Version 0.1.0=
+  * Add discover call in nodefinder.erl
+
+=Version 0.0.0=
+  * Initial version
