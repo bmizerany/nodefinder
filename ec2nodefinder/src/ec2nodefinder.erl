@@ -35,7 +35,7 @@ start (_Type, _Args) ->
   { ok, PrivateKey } = application:get_env (ec2nodefinder, private_key),
   { ok, Cert } = application:get_env (ec2nodefinder, cert),
   { ok, Ec2Home } = application:get_env (ec2nodefinder, ec2_home),
-  { ok, JavaHome } = application:get_env (javanodefinder, java_home),
+  { ok, JavaHome } = application:get_env (ec2nodefinder, java_home),
 
   ec2nodefindersup:start_link (Group, 
                                1000 * PingTimeout,
