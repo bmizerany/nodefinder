@@ -1,0 +1,35 @@
+#! /bin/sh
+
+erl -pa ../src -sname s3nodefinder_test1 -eval '
+  { ok, AccessKeyIdBinary } = file:read_file ("/usr/share/n54/access-key-id"),
+  s3nodefindersup:start_link (binary_to_list (AccessKeyIdBinary),
+                              "/usr/share/n54/secret-access-key",
+                              "/n54test/"),
+  receive after 10000 -> ok end
+' -noshell -noinput -s init stop &
+
+erl -pa ../src -sname s3nodefinder_test2 -eval '
+  "s3nodefinder_test2@" ++ Host = atom_to_list (node ()),
+  [] = erlang:nodes (),
+  { ok, AccessKeyIdBinary } = file:read_file ("/usr/share/n54/access-key-id"),
+  s3nodefindersup:start_link (binary_to_list (AccessKeyIdBinary),
+                              "/usr/share/n54/secret-access-key",
+                              "/n54test/"),
+  receive after 1000 -> ok end,
+  Other = list_to_atom ("s3nodefinder_test1@" ++ Host),
+  [ Other ] = erlang:nodes ()
+' -noshell -noinput -s init stop || exit 1
+
+# check that s3 bucket is nonempty
+s3-get -k `cat /usr/share/n54/access-key-id`                    \
+       -s /usr/share/n54/secret-access-key                      \
+       -S '/n54test/?prefix=no' 2>/dev/null |                   \
+ grep '<Key>node.s3nodefinder_test' >/dev/null || exit 1
+
+wait
+
+# check that s3 bucket is empty
+! s3-get -k `cat /usr/share/n54/access-key-id`  \
+         -s /usr/share/n54/secret-access-key    \
+         -S '/n54test/?prefix=no' 2>/dev/null | \
+   grep '<Key>node.s3nodefinder_test' 

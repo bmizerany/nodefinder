@@ -1,0 +1,5 @@
+TESTS = 		\
+  test-s3nodefinder
+
+EXTRA_DIST += 		\
+  test-s3nodefinder

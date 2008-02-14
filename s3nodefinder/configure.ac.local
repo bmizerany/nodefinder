@@ -1,0 +1,6 @@
+dnl -- include additional autoconf commands here
+dnl -- do not include AC_OUTPUT, this is called for you
+
+AC_PATH_PROG([S3GET], [s3-get], [none])
+
+test "x$S3GET" = xnone && AC_MSG_ERROR([can't find s3-get, please install s3-bash (http://developer.amazonwebservices.com/connect/entry.jspa?externalID=943)])
