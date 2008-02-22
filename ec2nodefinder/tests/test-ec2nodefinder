@@ -5,21 +5,21 @@ erl -pa ../src -name ec2nodefinder_checkah -eval '
   [ "com", "amazonaws" | Rest ] = lists:reverse (string:tokens (Host, "."))
 ' -noshell -noinput -s erlang halt >/dev/null 2>&1 || {
   echo "ERROR: this test only functions on an EC2 node" 1>&2
-  exit 1
+  exit 77
 }
 
 which ec2-describe-instances >/dev/null 2>/dev/null
 
 test $? = 0 || {
   echo "ERROR: ec2-describe-instances not installed (http://developer.amazonwebservices.com/connect/entry.jspa?externalID=351)" 1>&2
-  exit 1
+  exit 77
 }
 
 which java >/dev/null 2>/dev/null
 
 test $? = 0 || {
   echo "ERROR: java not installed" 1>&2
-  exit 1
+  exit 77
 }
 
 erl -pa ../src -name ec2nodefinder_test1 -eval '
