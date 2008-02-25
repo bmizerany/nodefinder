@@ -2,7 +2,7 @@
 # environment variable FW_PACKAGE_DEFAULT_MAINTAINER if non-empty
 
 FW_PACKAGE_NAME="ec2nodefinder"
-FW_PACKAGE_VERSION="0.0.5"
+FW_PACKAGE_VERSION="0.0.6"
 FW_PACKAGE_MAINTAINER="Paul Mineiro <paul@n54.com>"
 FW_PACKAGE_SHORT_DESCRIPTION="ec2-describe-instances based node discovery."
 FW_PACKAGE_DESCRIPTION="`cat README`"
