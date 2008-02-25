@@ -16,7 +16,7 @@ FW_PACKAGE_ARCHITECTURE_DEPENDENT="0"
 
 FW_PACKAGE_DEPENDS="ec2-api-tools,
                     n54-aws-auth,
-                    sun-java5-bin | fink"
+                    sun-java5-bin | fink (>= 0.0.0)"
 FW_PACKAGE_CONFLICTS=""
 FW_PACKAGE_PROVIDES="nodefinder-service"
 FW_PACKAGE_REPLACES=""
