@@ -45,3 +45,5 @@ FW_PACKAGE_BUILD_CONFLICTS=""
 # FW_ERL_APP_ENVIRONMENT="[]"
 
 FW_ERL_APP_EXTRA="{ included_applications, [ ec2nodefinder, nodefinder ] }"
+
+FW_SUBVERSION_TAG_ROOT="https://nodefinder.googlecode.com/svn/tags/combonodefinder"
