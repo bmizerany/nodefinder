@@ -1,0 +1,47 @@
+# The FW_PACKAGE_MAINTAINER field is populated with the 
+# environment variable FW_PACKAGE_DEFAULT_MAINTAINER if non-empty
+
+FW_PACKAGE_NAME="combonodefinder"
+FW_PACKAGE_VERSION="0.0.0"
+FW_PACKAGE_MAINTAINER="Paul Mineiro <paul-fw@mineiro.com>"
+FW_PACKAGE_SHORT_DESCRIPTION="Nodefinder and ec2nodefinder, combined."
+FW_PACKAGE_DESCRIPTION=`cat README`
+FW_PACKAGE_ARCHITECTURE_DEPENDENT="0"
+
+# Dependency information.  The native syntax corresponds to Debian,
+# http://www.debian.org/doc/debian-policy/ch-relationships.html
+# Section 7.1 "Syntax of Relationship Fields"
+# 
+# For other packaging systems, the syntax is translated for you.
+
+FW_PACKAGE_DEPENDS="nodefinder, ec2nodefinder"
+FW_PACKAGE_CONFLICTS=""
+FW_PACKAGE_PROVIDES="nodefinder-service"
+FW_PACKAGE_REPLACES=""
+FW_PACKAGE_SUGGESTS=""
+
+FW_PACKAGE_BUILD_DEPENDS="nodefinder, ec2nodefinder"
+FW_PACKAGE_BUILD_CONFLICTS=""
+
+# uncomment and set manually if autodetection of modules is incorrect
+# FW_ERL_APP_MODULES=""
+
+# uncomment and set manually if autodetection of registered processes is incorrect
+# FW_ERL_APP_REGISTERED=""
+
+# uncomment and set manually if autodetection of start module is incorrect
+# FW_ERL_APP_START_MODULE=""
+
+# uncomment to define start args to the start module.  should be an erlang
+# expression which evaluates to a list.
+# FW_ERL_APP_START_ARGS="[]"
+
+# uncomment if the module line being generated is incorrect and you want 
+# to override it.
+# FW_ERL_APP_MOD_LINE="{ mod, { $FW_ERL_APP_START_MODULE, $FW_ERL_APP_START_ARGS } },"
+
+# uncomment to define the application environment variables. should be an 
+# erlang expression which evaluates to a list.
+# FW_ERL_APP_ENVIRONMENT="[]"
+
+FW_ERL_APP_EXTRA="{ included_applications, [ ec2nodefinder, nodefinder ] }"
