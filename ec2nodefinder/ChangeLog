@@ -1,4 +1,4 @@
-=Version 0.0.4 [NOT YET RELEASED]=
+=Version 0.0.4=
   * Auto-detect EC2 security group if not configured.
 
 =Version 0.0.3=
