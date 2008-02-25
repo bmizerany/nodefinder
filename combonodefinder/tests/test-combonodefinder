@@ -51,7 +51,7 @@ erl -pa ../src -name combonodefinder_test2 -eval '
   { ok, [ App ] } = file:consult ("../src/combonodefinder.app"),
   ok = application:load (App),
   ok = combonodefinder:start (),
-  combonodefinder:discover (),
+  ok = combonodefinder:discover (),
   timer:sleep (1000),
   Host = lists:last (string:tokens (atom_to_list (node ()), "@")),
   Other = list_to_atom ("combonodefinder_test1@" ++ Host),
