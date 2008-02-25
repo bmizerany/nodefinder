@@ -2,7 +2,7 @@
 # environment variable FW_PACKAGE_DEFAULT_MAINTAINER if non-empty
 
 FW_PACKAGE_NAME="ec2nodefinder"
-FW_PACKAGE_VERSION="0.0.3"
+FW_PACKAGE_VERSION="0.0.4"
 FW_PACKAGE_MAINTAINER="Paul Mineiro <paul@n54.com>"
 FW_PACKAGE_SHORT_DESCRIPTION="ec2-describe-instances based node discovery."
 FW_PACKAGE_DESCRIPTION="`cat README`"
@@ -29,8 +29,7 @@ FW_PACKAGE_BUILD_CONFLICTS=""
 
 FW_SUBVERSION_TAG_ROOT="https://nodefinder.googlecode.com/svn/tags/ec2nodefinder"
 
-FW_ERL_APP_ENVIRONMENT="[{ group, \"default\" },
-  			 { ping_timeout_sec, 3 },
+FW_ERL_APP_ENVIRONMENT="[{ ping_timeout_sec, 3 },
 			 { ec2_home, \"/usr\" },
 			 { java_home, \"/usr\" },
 			 { private_key, \"/usr/share/n54/pk-GPXBZ3LGH4OMFSNK777QX2ZC57QIIPLB.pem\" },

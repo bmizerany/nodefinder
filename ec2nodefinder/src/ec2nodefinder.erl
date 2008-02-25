@@ -30,7 +30,10 @@ start () ->
 %% @hidden
 
 start (_Type, _Args) ->
-  { ok, Group } = application:get_env (ec2nodefinder, group),
+  Group = case application:get_env (ec2nodefinder, group) of
+    { ok, G } -> G;
+    _ -> first_security_group ()
+  end,
   { ok, PingTimeout } = application:get_env (ec2nodefinder, ping_timeout_sec),
   { ok, PrivateKey } = application:get_env (ec2nodefinder, private_key),
   { ok, Cert } = application:get_env (ec2nodefinder, cert),
@@ -53,3 +56,18 @@ stop () ->
 
 stop (_State) ->
   ok.
+
+%-=====================================================================-
+%-                               Private                               -
+%-=====================================================================-
+
+%% @private
+
+first_security_group () ->
+  Url = "http://169.254.169.254/2007-08-29/meta-data/security-groups",
+  case http:request (Url) of
+    { ok, { { _HttpVersion, 200, _Reason }, _Headers, Body } } ->
+      string:substr (Body, 1, string:cspan (Body, "\n"));
+    BadResult ->
+      erlang:error ({ http_request_failed, Url, BadResult })
+  end.
