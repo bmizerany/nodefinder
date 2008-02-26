@@ -1,3 +1,6 @@
+=Version 0.0.2=
+  * call nodefinder:stop/1 or ec2nodefinder:stop/1 as appropriate.
+
 =Version 0.0.1=
   * Build with latest fw-template-erlang (fixed package hooks).
 
