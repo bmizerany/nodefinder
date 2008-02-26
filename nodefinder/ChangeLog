@@ -1,3 +1,6 @@
+=Version 0.1.2=
+  * Build with latest framewerk (erlrc hooks).
+
 =Version 0.1.1=
   * Cleanup documentation.
   * Fix make dist.
