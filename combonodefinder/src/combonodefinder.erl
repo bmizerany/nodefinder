@@ -47,8 +47,11 @@ stop () ->
 
 %% @hidden
 
-stop (_State) ->
-  ok.
+stop (State) ->
+  case is_ec2_host () of
+    true -> ec2nodefinder:stop (State);
+    false -> nodefinder:stop (State)
+  end.
 
 %-=====================================================================-
 %-                               Private                               -
