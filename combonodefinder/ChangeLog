@@ -1,2 +1,5 @@
+=Version 0.0.1=
+  * Build with latest fw-template-erlang (fixed package hooks).
+
 =Version 0.0.0=
   * Initial version.
