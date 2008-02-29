@@ -4,7 +4,7 @@
 
 -module (ec2nodefindersrv).
 -behaviour (gen_server).
--export ([ start_link/6, discover/0, discover/1 ]).
+-export ([ start_link/6, discover/0 ]).
 -export ([ init/1,
            handle_call/3,
            handle_cast/2,
@@ -38,9 +38,6 @@ start_link (Group, PingTimeout, PrivateKey, Cert, Ec2Home, JavaHome)
 
 discover () ->
   discover (120000).
-
-discover (Timeout) ->
-  gen_server:call (?MODULE, discover, Timeout).
 
 %-=====================================================================-
 %-                         gen_server callbacks                        -
