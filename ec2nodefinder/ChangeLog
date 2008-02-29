@@ -1,3 +1,6 @@
+=Version 0.0.7=
+  * Up default timeout to 2 minutes from 10 seconds.
+
 =Version 0.0.6=
   * Build with latest fw-template-erlang (erlrc hooks bugfix).
 
