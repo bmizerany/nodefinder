@@ -37,7 +37,7 @@ start_link (Group, PingTimeout, PrivateKey, Cert, Ec2Home, JavaHome)
      [ { timeout, 10000 + 2 * PingTimeout } ]).
 
 discover () ->
-  discover (120000).
+  gen_server:call (?MODULE, discover, 120000).
 
 %-=====================================================================-
 %-                         gen_server callbacks                        -
