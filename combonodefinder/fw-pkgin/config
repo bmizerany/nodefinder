@@ -20,7 +20,7 @@ FW_PACKAGE_PROVIDES="nodefinder-service"
 FW_PACKAGE_REPLACES=""
 FW_PACKAGE_SUGGESTS=""
 
-FW_PACKAGE_BUILD_DEPENDS="nodefinder, ec2nodefinder"
+FW_PACKAGE_BUILD_DEPENDS="n54-dupload-conf, nodefinder, ec2nodefinder"
 FW_PACKAGE_BUILD_CONFLICTS=""
 
 # uncomment and set manually if autodetection of modules is incorrect
