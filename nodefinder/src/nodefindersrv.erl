@@ -124,9 +124,7 @@ process_packet ("DISCOVERV2 " ++ Rest, IP, InPortNo, State) ->
                                     IP,
                                     InPortNo ]);
       _ ->
-        error_logger:warning_msg ("bad mac for DISCOVERV2 from ~p:~p~n",
-                                  [ IP,
-                                    InPortNo ])
+        ok
     end
   catch
     error : { badmatch, _ } ->
