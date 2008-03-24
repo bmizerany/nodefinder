@@ -2,7 +2,7 @@
 # environment variable FW_PACKAGE_DEFAULT_MAINTAINER if non-empty
 
 FW_PACKAGE_NAME="nodefinder"
-FW_PACKAGE_VERSION="0.1.2"
+FW_PACKAGE_VERSION="0.2.0"
 FW_PACKAGE_MAINTAINER="Paul Mineiro <paul@n54.com>"
 FW_PACKAGE_SHORT_DESCRIPTION="Erlang multicast node discovery service."
 FW_PACKAGE_DESCRIPTION="`cat README`"
@@ -23,4 +23,8 @@ FW_PACKAGE_BUILD_CONFLICTS=""
 
 FW_SUBVERSION_TAG_ROOT="https://nodefinder.googlecode.com/svn/tags/nodefinder"
 
-FW_ERL_APP_ENVIRONMENT="[{ addr, { 226, 0, 0, 1 } }, { port, 6969 }]"
+FW_ERL_APP_ENVIRONMENT="[{ addr, { 226, 0, 0, 1 } }, 
+                         { port, 6969 },
+                         { multicast_ttl, 1 }]"
+
+FW_ERL_PREREQ_APPLICATIONS_EXTRA="crypto"

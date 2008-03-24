@@ -1,3 +1,9 @@
+=Version 0.2.0=
+  * Incorporate suggestions from Matthew Dempsky <matthew@mochimedia.com>
+  	- multicast ttl
+	- seperate send and recv sockets
+	- prevent list_to_atom flood
+
 =Version 0.1.2=
   * Build with latest framewerk (erlrc hooks).
 

@@ -25,6 +25,7 @@ discover () ->
 %% @hidden
 
 start () ->
+  crypto:start (),
   application:start (nodefinder).
 
 %% @hidden
@@ -32,7 +33,8 @@ start () ->
 start (_Type, _Args) ->
   { ok, Addr } = application:get_env (nodefinder, addr),
   { ok, Port } = application:get_env (nodefinder, port),
-  nodefindersup:start_link (Addr, Port).
+  { ok, Ttl } = application:get_env (nodefinder, multicast_ttl),
+  nodefindersup:start_link (Addr, Port, Ttl).
 
 %% @hidden
 

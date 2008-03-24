@@ -5,7 +5,10 @@ cleanup () {
 }
 
 erl -pa ../src -sname nodefinder_test1 -eval '
-  nodefindersup:start_link ({ 226, 0, 0, 1 }, 6969),
+  application:start (crypto),
+  { ok, [ App ] } = file:consult ("../src/nodefinder.app"),
+  ok = application:load (App),
+  ok = application:start (nodefinder),
   receive after 10000 -> ok end
 ' -noshell -noinput -s init stop &
 
@@ -18,7 +21,10 @@ sleep 1
 erl -pa ../src -sname nodefinder_test2 -eval '
   "nodefinder_test2@" ++ Host = atom_to_list (node ()),
   [] = erlang:nodes (),
-  nodefindersup:start_link ({ 226, 0, 0, 1 }, 6969),
+  application:start (crypto),
+  { ok, [ App ] } = file:consult ("../src/nodefinder.app"),
+  ok = application:load (App),
+  ok = application:start (nodefinder),
   receive after 1000 -> ok end,
   Other = list_to_atom ("nodefinder_test1@" ++ Host),
   [ Other ] = erlang:nodes (),
