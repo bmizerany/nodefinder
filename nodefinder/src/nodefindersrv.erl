@@ -84,19 +84,20 @@ code_change (_OldVsn, State, _Extra) ->
 
 discover (State) ->
   NodeString = atom_to_list (node ()),
-  Mac = mac (NodeString),
-  Message = [ "DISCOVERV2 ", Mac, " ", NodeString ],
+  Time = seconds (),
+  Mac = mac ([ <<Time:64>>, NodeString ]),
+  Message = [ "DISCOVERV2 ", Mac, " ", <<Time:64>>, " ", NodeString ],
   ok = gen_udp:send (State#statev2.sendsock,
                      State#statev2.addr,
                      State#statev2.port,
                      Message),
   State.
 
-mac (NodeString) ->
-  % Don't use cookie directly, creates a known-cyphertext attack on cookie.
+mac (Message) ->
+  % Don't use cookie directly, creates a known-plaintext attack on cookie.
   % hehe ... as opposed to using ps :)
   Key = crypto:sha (erlang:term_to_binary (erlang:get_cookie ())),
-  crypto:sha_mac (Key, NodeString).
+  crypto:sha_mac (Key, Message).
 
 process_packet ("DISCOVER " ++ NodeName, IP, InPortNo, State) -> 
   error_logger:warning_msg ("old DISCOVER packet from ~p (~p:~p) ~n", 
@@ -110,17 +111,26 @@ process_packet ("DISCOVERV2 " ++ Rest, IP, InPortNo, State) ->
   % the packet should always have the right structure.
 
   try
-    <<Mac:20/binary, " ", NodeString/binary>> = list_to_binary (Rest),
-    try
-      Mac = mac (NodeString),
-      net_adm:ping (list_to_atom (binary_to_list (NodeString)))
-    catch
-      _ : _ ->
-        ok
+    <<Mac:20/binary, " ", 
+      Time:64, " ",
+      NodeString/binary>> = list_to_binary (Rest),
+
+    case { mac ([ <<Time:64>>, NodeString ]), abs (seconds () - Time) } of
+      { Mac, AbsDelta } when AbsDelta < 300 ->
+        net_adm:ping (list_to_atom (binary_to_list (NodeString)));
+      { Mac, AbsDelta } ->
+        error_logger:warning_msg ("expired DISCOVERV2 (~p) from ~p:~p~n",
+                                  [ AbsDelta,
+                                    IP,
+                                    InPortNo ]);
+      _ ->
+        error_logger:warning_msg ("bad mac for DISCOVERV2 from ~p:~p~n",
+                                  [ IP,
+                                    InPortNo ])
     end
   catch
-    _ : _ ->
-      error_logger:warning_msg ("bad DISCOVERV2 ~p (from ~p:~p)~n", 
+    error : { badmatch, _ } ->
+      error_logger:warning_msg ("bad DISCOVERV2 from ~p:~p~n", 
                                 [ list_to_binary (Rest),
                                   IP,
                                   InPortNo ])
@@ -129,6 +139,9 @@ process_packet ("DISCOVERV2 " ++ Rest, IP, InPortNo, State) ->
   State;
 process_packet (_Packet, _IP, _InPortNo, State) -> 
   State.
+
+seconds () ->
+  calendar:datetime_to_gregorian_seconds (calendar:universal_time ()).
 
 send_socket (Ttl) ->
   SendOpts = [ { ip, { 0, 0, 0, 0 } },
