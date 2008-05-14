@@ -30,6 +30,7 @@ discover () ->
 %% @hidden
 
 start () ->
+  crypto:start (),
   application:start (combonodefinder).
 
 %% @hidden

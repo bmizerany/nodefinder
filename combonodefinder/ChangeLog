@@ -1,3 +1,6 @@
+=Version 0.0.3=
+  * have start/0 start crypto
+
 =Version 0.0.2=
   * call nodefinder:stop/1 or ec2nodefinder:stop/1 as appropriate.
 
